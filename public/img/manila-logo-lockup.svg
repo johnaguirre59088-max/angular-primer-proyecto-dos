@@ -1,0 +1,15 @@
+<svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="20,2 620,2 620,150 600,178 20,178" fill="#08090b" stroke="#fcee0a" stroke-width="2"/>
+
+  <g transform="translate(14,10) scale(0.62)">
+    <polygon points="120,10 230,60 230,180 120,230 10,180 10,60" fill="none" stroke="#fcee0a" stroke-width="7"/>
+    <path d="M62,168 L62,74 L84,74 L120,122 L156,74 L178,74 L178,168 L158,168 L158,104 L122,152 L118,152 L82,104 L82,168 Z"
+      fill="#e7f1f2"/>
+    <rect x="176" y="46" width="14" height="14" fill="#ff003c" transform="rotate(45 183 53)"/>
+  </g>
+
+  <text x="180" y="98" font-family="'Chakra Petch', sans-serif" font-weight="700"
+    font-size="52" letter-spacing="3" fill="#e7f1f2">MANILA</text>
+  <text x="182" y="124" font-family="'Share Tech Mono', monospace" font-weight="400"
+    font-size="14" letter-spacing="6" fill="#00f0ff">RESTAURANTE</text>
+</svg>

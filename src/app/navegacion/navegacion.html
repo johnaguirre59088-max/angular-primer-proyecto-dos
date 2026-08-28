@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark hud-nav">
+  <div class="container-fluid px-3 px-lg-5">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+      aria-controls="navbarMenu" aria-expanded="false" aria-label="Abrir navegación">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav gap-lg-1 hud-nav__links">
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            [ 01 ] Inicio
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/comidas" routerLinkActive="active">
+            [ 02 ] Comidas
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bebidas" routerLinkActive="active">
+            [ 03 ] Bebidas
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/juego" routerLinkActive="active">
+            [ 04 ] Braindance
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <a class="navbar-brand hud-nav__brand" routerLink="/">
+      <img src="img/manila-logo-lockup.svg" alt="Manila Restaurante">
+    </a>
+
+    <a class="hud-nav__cart" routerLink="/carrito" routerLinkActive="active">
+      <i class="bi bi-bag-fill"></i>
+      @if (cantidadCarrito() > 0) {
+      <span class="badge bg-danger">{{ cantidadCarrito() }}</span>
+      }
+    </a>
+
+  </div>
+</nav>

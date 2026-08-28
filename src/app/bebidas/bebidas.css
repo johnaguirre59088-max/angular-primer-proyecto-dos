@@ -1,0 +1,79 @@
+.terminal-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.terminal-panel {
+  background: var(--surface);
+  border-left: 2px solid var(--yellow);
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+}
+
+.terminal-panel__block {
+  margin-bottom: 16px;
+}
+
+.terminal-panel__categorias {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.chip {
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-left: 2px solid transparent;
+  color: var(--paper-muted);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chip:hover {
+  color: var(--cyan);
+}
+
+.chip--activo {
+  color: var(--yellow);
+  border-color: var(--yellow);
+  background: rgba(252, 238, 10, 0.06);
+}
+
+.bebida-img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card {
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+@media (max-width: 860px) {
+  .terminal-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .terminal-panel {
+    position: static;
+  }
+
+  .terminal-panel__categorias {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-height: none;
+  }
+}

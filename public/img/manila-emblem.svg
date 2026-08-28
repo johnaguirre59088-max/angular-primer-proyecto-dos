@@ -1,0 +1,7 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="120,10 230,60 230,180 120,230 10,180 10,60" fill="none" stroke="#fcee0a" stroke-width="6"/>
+  <polygon points="120,26 214,68 214,172 120,214 26,172 26,68" fill="none" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="2 8"/>
+  <path d="M62,168 L62,74 L84,74 L120,122 L156,74 L178,74 L178,168 L158,168 L158,104 L122,152 L118,152 L82,104 L82,168 Z"
+    fill="#e7f1f2"/>
+  <rect x="176" y="46" width="14" height="14" fill="#ff003c" transform="rotate(45 183 53)"/>
+</svg>

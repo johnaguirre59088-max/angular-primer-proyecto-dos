@@ -1,0 +1,93 @@
+<div class="container py-5">
+  <span class="stamp mb-2">Tu pedido</span>
+  <h1 class="mt-2 mb-4">Mi pedido</h1>
+
+  @if (items().length === 0) {
+  <p class="text-muted">Todavía no has agregado nada. Ve a Comidas o Bebidas para empezar tu pedido.</p>
+  } @else {
+  <div class="row g-4">
+
+    <div class="col-lg-4 order-lg-2">
+      <div class="resumen">
+        <span class="stamp mb-2">Resumen</span>
+        <hr>
+        <div class="resumen__total">
+          <span>Total a pagar</span>
+          <strong>${{ total | number:'1.0-0' }}</strong>
+        </div>
+        <button class="btn btn-primary w-100 mt-3" (click)="enviarPedido()">
+          Enviar pedido
+        </button>
+
+        @if (mostrarPago()) {
+        <div class="mt-4">
+          <h6 class="mb-3">Datos para tu pedido</h6>
+
+          <label class="form-label">Nombre completo</label>
+          <input type="text" class="form-control mb-3" [ngModel]="nombreCliente()"
+            (ngModelChange)="nombreCliente.set($event)" name="nombreCliente">
+
+          <label class="form-label">Celular</label>
+          <input type="text" class="form-control mb-3" [ngModel]="celularCliente()"
+            (ngModelChange)="celularCliente.set($event)" name="celularCliente">
+
+          <label class="form-label">Dirección</label>
+          <input type="text" class="form-control mb-3" [ngModel]="direccionCliente()"
+            (ngModelChange)="direccionCliente.set($event)" name="direccionCliente">
+
+          <button class="btn btn-success w-100" (click)="confirmarPedido()">
+            Confirmar y descargar PDF
+          </button>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="col-lg-8 order-lg-1">
+      <div class="pedido-lista">
+        @for (item of items(); track item.id + item.tipo) {
+        <div class="pedido-fila">
+          <img [src]="item.imagen" [alt]="item.nombre">
+          <div class="pedido-fila__info">
+            <span class="pedido-fila__nombre">{{ item.nombre }}</span>
+            <span class="badge bg-danger">{{ item.tipo }}</span>
+          </div>
+          <div class="pedido-fila__precio">${{ item.precio | number:'1.0-0' }}</div>
+          <div class="stepper">
+            <button class="btn btn-sm btn-outline-secondary" (click)="disminuir(item)">-</button>
+            <span>{{ item.cantidad }}</span>
+            <button class="btn btn-sm btn-outline-secondary" (click)="aumentar(item)">+</button>
+          </div>
+          <div class="pedido-fila__subtotal">${{ item.precio * item.cantidad | number:'1.0-0' }}</div>
+          <button class="btn btn-sm btn-outline-danger" (click)="quitar(item)">Quitar</button>
+        </div>
+        }
+      </div>
+
+      <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-outline-secondary" (click)="continuarPedido()">
+          Continuar pedido
+        </button>
+      </div>
+    </div>
+
+  </div>
+  }
+</div>
+
+<div class="modal fade" id="modalPedido" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ modalTitulo() }}</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="white-space: pre-line;">
+        {{ modalMensaje() }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

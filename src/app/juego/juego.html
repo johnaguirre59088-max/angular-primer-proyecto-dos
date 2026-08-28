@@ -1,0 +1,47 @@
+<div class="container text-center my-5 braindance">
+  <span class="stamp mb-2">Módulo recreativo</span>
+  <h2 class="mt-2 mb-1">Braindance // MANILA</h2>
+  <p class="text-muted mb-4">Sincroniza los pares de platos y bebidas</p>
+
+  @if (cargando()) {
+  <p class="text-muted">Cargando datos...</p>
+  }
+
+  @if (!cargando()) {
+  @if (usandoRespaldo()) {
+  <p class="modo-respaldo mb-3">Usando datos locales — no se pudo contactar la base de datos.</p>
+  }
+
+  <div class="d-flex justify-content-center gap-4 mb-4 marcador">
+    <span>MOVS: <strong>{{ movimientos() }}</strong></span>
+    <span>PARES: <strong>{{ parejasEncontradas() }}/8</strong></span>
+  </div>
+
+  <div class="memo-grid mx-auto mb-4">
+    @for (carta of cartas(); track $index; let i = $index) {
+    <div class="memo-card" [class.volteada]="carta.volteada" [class.encontrada]="carta.encontrada"
+      (click)="voltear(i)">
+      <div class="memo-card__cara">
+        <div class="memo-card__frente">?</div>
+        <div class="memo-card__dorso">
+          @if (carta.imagen.startsWith('http')) {
+          <img [src]="carta.imagen" [alt]="carta.nombre">
+          } @else {
+          <span class="memo-card__emoji">{{ carta.imagen }}</span>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  @if (ganado()) {
+  <div class="ganaste mb-3">
+    <p class="mb-2">SINCRONIZACIÓN COMPLETA — {{ movimientos() }} movimientos</p>
+    <button class="btn btn-primary" (click)="iniciarJuego()">Jugar de nuevo</button>
+  </div>
+  } @else {
+  <button class="btn btn-outline-primary" (click)="iniciarJuego()">Reiniciar</button>
+  }
+  }
+</div>

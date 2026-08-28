@@ -1,0 +1,72 @@
+.dossier {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dossier__fila {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  align-items: center;
+  gap: 22px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 16px 20px;
+}
+
+.dossier__img {
+  width: 90px;
+  height: 90px;
+}
+
+.dossier__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dossier__tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.dossier__info h5 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 4px 0 2px;
+  font-size: 1.1rem;
+  color: var(--paper);
+}
+
+.dossier__info p {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.dossier__precio {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--yellow);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .dossier__fila {
+    grid-template-columns: 64px 1fr;
+    row-gap: 8px;
+  }
+
+  .dossier__img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .dossier__precio {
+    grid-column: 2 / 3;
+  }
+}

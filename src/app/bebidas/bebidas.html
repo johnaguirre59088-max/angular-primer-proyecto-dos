@@ -1,0 +1,127 @@
+<div class="container py-5">
+
+  <span class="stamp mb-2">Base de datos · bebidas</span>
+  <h1 class="mt-2 mb-5">Nuestras bebidas</h1>
+
+  <div class="terminal-layout">
+
+    <aside class="terminal-panel">
+      <div class="terminal-panel__block">
+        <label class="form-label">Coctel por nombre</label>
+        <input type="text" class="form-control" [(ngModel)]="busquedaNombre" name="busquedaNombre"
+          placeholder="Ej: Mojito">
+      </div>
+
+      <div class="terminal-panel__block">
+        <label class="form-label">Ingrediente por nombre</label>
+        <input type="text" class="form-control" [(ngModel)]="busquedaIngrediente" name="busquedaIngrediente"
+          placeholder="Ej: rum">
+      </div>
+
+      <div class="terminal-panel__block">
+        <label class="form-label">Tipo de bebida</label>
+        <select class="form-select" [(ngModel)]="tipoBebida" name="tipoBebida">
+          <option value="">Todas</option>
+          <option value="alcoholic">Alcohólica</option>
+          <option value="non_alcoholic">Sin alcohol</option>
+        </select>
+      </div>
+
+      <div class="terminal-panel__block">
+        <label class="form-label">Categoría</label>
+        <select class="form-select" [(ngModel)]="categoriaBebida" name="categoriaBebida">
+          <option value="">Todas</option>
+          <option value="ordinary_drink">Bebida ordinaria</option>
+          <option value="cocktail">Coctel</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary w-100 mb-4" (click)="buscar()">
+        <i class="bi bi-search me-2"></i>Buscar
+      </button>
+
+      <span class="form-label d-block mb-2">Categorías rápidas</span>
+      <div class="terminal-panel__categorias">
+        @for (cat of categoriasBebida; track cat.valor) {
+        <button class="chip" [class.chip--activo]="cat.valor === categoriaActiva"
+          (click)="seleccionarCategoria(cat.valor)">
+          [ {{ cat.etiqueta }} ]
+        </button>
+        }
+      </div>
+    </aside>
+
+    <div class="terminal-content">
+
+      @if (cargando) {
+      <p class="text-muted">Cargando...</p>
+      }
+
+      <div class="row g-4">
+        @for (bebida of bebidas(); track bebida.idDrink) {
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="ficha-img-wrap hud-frame">
+              <img [src]="bebida.strDrinkThumb" class="card-img-top bebida-img" [alt]="bebida.strDrink">
+              <span class="ficha-categoria">{{ etiquetaCategoria(bebida.strCategory) }}</span>
+              <span class="ficha-precio">${{ bebida.precio | number:'1.0-0' }}</span>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ bebida.strDrink }}</h5>
+              <div class="ficha-ingredientes">
+                @for (ing of bebida.ingredientes.slice(0, 4); track ing) {
+                <span>{{ ing }}</span>
+                }
+              </div>
+              <button class="btn btn-sm btn-outline-primary w-100" data-bs-toggle="modal"
+                data-bs-target="#modalDetalleBebida" (click)="verDetalle(bebida)">
+                Ver detalle
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+
+      @if (!cargando && bebidas().length === 0) {
+      <p class="text-muted text-center py-4">No se encontraron bebidas.</p>
+      }
+
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="modalDetalleBebida" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      @if (bebidaSeleccionada(); as bebida) {
+      <div class="modal-header">
+        <h5 class="modal-title">{{ bebida.strDrink }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <img [src]="bebida.strDrinkThumb" class="img-fluid mb-3" [alt]="bebida.strDrink">
+        <span class="ficha-categoria position-static d-inline-block mb-2">{{ bebida.strCategory }}</span>
+        <span class="badge bg-secondary mb-2 ms-2">{{ bebida.strAlcoholic }}</span>
+        <h6>Ingredientes</h6>
+        <p class="text-muted">{{ bebida.ingredientes.join(', ') }}</p>
+        <p class="fw-bold fs-5" style="color: var(--yellow);">${{ bebida.precio | number:'1.0-0' }}</p>
+
+        <div class="d-flex align-items-center gap-3 mt-3">
+          <span class="fw-semibold">Cantidad:</span>
+          <button class="btn btn-outline-secondary btn-sm" (click)="disminuirCantidad()">-</button>
+          <span class="fw-bold">{{ cantidadSeleccionada }}</span>
+          <button class="btn btn-outline-secondary btn-sm" (click)="aumentarCantidad()">+</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button class="btn btn-primary" data-bs-dismiss="modal" (click)="agregarAlPedido(bebida)">
+          Agregar al pedido
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</div>

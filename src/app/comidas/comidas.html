@@ -1,0 +1,107 @@
+<div class="container py-5">
+
+  <span class="stamp mb-2">Base de datos · comidas</span>
+  <h1 class="mt-2 mb-5">Nuestras comidas</h1>
+
+  <div class="terminal-layout">
+
+    <aside class="terminal-panel">
+      <div class="terminal-panel__block">
+        <label class="form-label">Comidas por nombre</label>
+        <input type="text" class="form-control" [(ngModel)]="busquedaNombre" name="busquedaNombre"
+          placeholder="Ej: Chicken Curry">
+      </div>
+
+      <div class="terminal-panel__block">
+        <label class="form-label">Comidas por ingrediente</label>
+        <input type="text" class="form-control" [(ngModel)]="busquedaIngrediente" name="busquedaIngrediente"
+          placeholder="Ej: Chicken">
+      </div>
+
+      <button class="btn btn-primary w-100 mb-4" (click)="buscar()">
+        <i class="bi bi-search me-2"></i>Buscar
+      </button>
+
+      <span class="form-label d-block mb-2">Categorías</span>
+      <div class="terminal-panel__categorias">
+        @for (cat of categorias(); track cat.strCategory) {
+        <button class="chip" [class.chip--activo]="cat.strCategory === categoriaActiva"
+          (click)="seleccionarCategoria(cat.strCategory)">
+          [ {{ traducirCategoria(cat.strCategory) }} ]
+        </button>
+        }
+      </div>
+    </aside>
+
+    <div class="terminal-content">
+
+      @if (cargando) {
+      <p class="text-muted">Cargando...</p>
+      }
+
+      <div class="row g-4">
+        @for (comida of comidas(); track comida.idMeal) {
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="ficha-img-wrap hud-frame">
+              <img [src]="comida.strMealThumb" class="card-img-top comida-img" [alt]="comida.strMeal">
+              <span class="ficha-categoria">{{ traducirCategoria(comida.strCategory) }}</span>
+              <span class="ficha-precio">${{ comida.precio | number:'1.0-0' }}</span>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ comida.strMeal }}</h5>
+              <div class="ficha-ingredientes">
+                @for (ing of comida.ingredientes.slice(0, 4); track ing) {
+                <span>{{ ing }}</span>
+                }
+              </div>
+              <button class="btn btn-sm btn-outline-primary w-100" data-bs-toggle="modal"
+                data-bs-target="#modalDetalleComida" (click)="verDetalle(comida)">
+                Ver detalle
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+
+      @if (!cargando && comidas().length === 0) {
+      <p class="text-muted text-center py-4">No se encontraron platos.</p>
+      }
+
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="modalDetalleComida" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      @if (comidaSeleccionada(); as comida) {
+      <div class="modal-header">
+        <h5 class="modal-title">{{ comida.strMeal }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <img [src]="comida.strMealThumb" class="img-fluid mb-3" [alt]="comida.strMeal">
+        <span class="ficha-categoria position-static d-inline-block mb-2">{{ traducirCategoria(comida.strCategory) }}</span>
+        <h6>Ingredientes</h6>
+        <p class="text-muted">{{ comida.ingredientes.join(', ') }}</p>
+        <p class="fw-bold fs-5" style="color: var(--yellow);">${{ comida.precio | number:'1.0-0' }}</p>
+        <div class="d-flex align-items-center gap-3 mt-3">
+          <span class="fw-semibold">Cantidad:</span>
+          <button class="btn btn-outline-secondary btn-sm" (click)="disminuirCantidad()">-</button>
+          <span class="fw-bold">{{ cantidadSeleccionada }}</span>
+          <button class="btn btn-outline-secondary btn-sm" (click)="aumentarCantidad()">+</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button class="btn btn-primary" data-bs-dismiss="modal" (click)="agregarAlPedido(comida)">
+          Agregar al pedido
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</div>
